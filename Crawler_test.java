@@ -12,13 +12,16 @@ import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 
 public class Crawler_test {
-	
+	// 銀行資料參考網頁: http://www.findrate.tw/glossary.html#.WTbShhOGP-Y
 	//宣告兩個字串陣列 一個儲存買入or賣出 一個儲存七種幣別
 	private static String[] buyORsell = new String[2];
 	private static String[] currency = new String[7];
 	
 	//宣告7個長度14的double陣列 儲存七間銀行的七種貨幣資料(包含買入賣出) 奇數存取買入偶數存取賣出
-	private static double[] bot = new double[14];
+	private static double[] bot = new double[14]; //台灣銀行
+	private static double[] mega = new double[14]; //兆豐銀行
+	private static double[] esun = new double[14]; //玉山銀行
+	private static double[] hncb = new double[14]; // 華南銀行
  	
 	public static void main(String[] args) throws Exception{
 		
@@ -37,6 +40,8 @@ public class Crawler_test {
 		
 		URL bot_web = new URL("http://rate.bot.com.tw/xrt?Lang=zh-TW"); // 台灣銀行
 		URL mega_web = new URL("http://www.findrate.tw/bank/5/#.WTZwjROGOt8"); //兆豐銀行
+		URL esun_web = new URL("https://www.esunbank.com.tw/bank/Layouts/esunbank/Accessibility/rate_exchange.aspx"); //玉山銀行
+		URL hncb_web = new URL("https://ibank.hncb.com.tw/netbank/pages/jsp/ExtSel/RTExange.html"); //華南銀行
 		
 		/*
          * 向網頁伺服發出請求，並將回應分析成document。
@@ -45,7 +50,9 @@ public class Crawler_test {
          */
 		
         Document bot_doc = Jsoup.parse(bot_web, 3000); // bot: 台灣銀行
-        Document mega = Jsoup.parse(mega_web, 3000); // mega: 兆豐銀行
+        Document mega_doc = Jsoup.parse(mega_web, 3000); // mega: 兆豐銀行
+        Document esun_doc = Jsoup.parse(esun_web, 3000); // esun: 玉山銀行
+        Document hncb_doc = Jsoup.parse(hncb_web, 3000); // hncb: 華南銀行
         
         /*String bot_title = bot.title(); // 抓取網頁標題
         String mega_title = sinopac.title();
@@ -68,27 +75,78 @@ public class Crawler_test {
         bot[12] = Double.parseDouble(bot_elements.get(4).text()); //台灣銀行英鎊現金買入
         bot[13] = Double.parseDouble(bot_elements.get(5).text()); //台灣銀行英鎊現金賣出
         
-        
-        for(int i = 0; i < bot.length; i++){
+        /*for(int i = 0; i < bot.length; i++){
         	System.out.println(bot[i]);
+        }*/
+        
+        Elements mega_elements = mega_doc.select("td.WordB");
+        mega[0] = Double.parseDouble(mega_elements.get(0).text()); //兆豐銀行美金現金買入
+        mega[1] = Double.parseDouble(mega_elements.get(1).text()); //兆豐銀行美金現金賣出
+        mega[2] = Double.parseDouble(mega_elements.get(4).text()); //兆豐銀行港幣現金買入
+        mega[3] = Double.parseDouble(mega_elements.get(5).text()); //兆豐銀行港幣現金賣出
+        mega[4] = Double.parseDouble(mega_elements.get(12).text()); //兆豐銀行日圓現金買入
+        mega[5] = Double.parseDouble(mega_elements.get(13).text()); //兆豐銀行日圓現金賣出
+        mega[6] = Double.parseDouble(mega_elements.get(52).text()); //兆豐銀行韓元現金買入
+        mega[7] = Double.parseDouble(mega_elements.get(53).text()); //兆豐銀行韓元現金賣出
+        mega[8] = Double.parseDouble(mega_elements.get(48).text()); //兆豐銀行歐元現金買入
+        mega[9] = Double.parseDouble(mega_elements.get(49).text()); //兆豐銀行歐元現金賣出
+        mega[10] = Double.parseDouble(mega_elements.get(76).text()); //兆豐銀行人民幣現金買入
+        mega[11] = Double.parseDouble(mega_elements.get(77).text()); //兆豐銀行人民幣現金賣出
+        mega[12] = Double.parseDouble(mega_elements.get(8).text()); //兆豐銀行英鎊現金買入
+        mega[13] = Double.parseDouble(mega_elements.get(9).text()); //兆豐銀行英鎊現金賣出
+        
+        /*for(int i = 0; i < mega.length; i++){
+        	System.out.println(mega[i]);
+        }*/
+        
+        Elements esun_elements = esun_doc.select("td");
+        esun[0] = Double.parseDouble(esun_elements.get(1).text()); //玉山銀行美金現金買入
+        esun[1] = Double.parseDouble(esun_elements.get(2).text()); //玉山銀行美金現金賣出
+        esun[2] = Double.parseDouble(esun_elements.get(4).text()); //玉山銀行港幣現金買入
+        esun[3] = Double.parseDouble(esun_elements.get(5).text()); //玉山銀行港幣現金賣出
+        esun[4] = Double.parseDouble(esun_elements.get(7).text()); //玉山銀行日圓現金買入
+        esun[5] = Double.parseDouble(esun_elements.get(8).text()); //玉山銀行日圓現金賣出
+        //esun[6] = Double.parseDouble(esun_elements.get(52).text()); //玉山銀行韓元現金買入
+        //esun[7] = Double.parseDouble(esun_elements.get(53).text()); //玉山銀行韓元現金賣出
+        esun[8] = Double.parseDouble(esun_elements.get(10).text()); //玉山銀行歐元現金買入
+        esun[9] = Double.parseDouble(esun_elements.get(11).text()); //玉山銀行歐元現金賣出
+        esun[10] = Double.parseDouble(esun_elements.get(40).text()); //玉山銀行人民幣現金買入
+        esun[11] = Double.parseDouble(esun_elements.get(41).text()); //玉山銀行人民幣現金賣出
+        esun[12] = Double.parseDouble(esun_elements.get(13).text()); //玉山銀行英鎊現金買入
+        esun[13] = Double.parseDouble(esun_elements.get(14).text()); //玉山銀行英鎊現金賣出
+        //玉山銀行無韓元現金兌換 因此陣列存入值皆為 0.0
+        
+        /*for(int i = 0; i < esun.length; i++){
+        	System.out.println(esun[i]);
+        }*/
+        
+        Elements hncb_elements = hncb_doc.select("td");
+        hncb[0] = Double.parseDouble(hncb_elements.get(14).text()); //華南銀行美金現金買入
+        hncb[1] = Double.parseDouble(hncb_elements.get(15).text()); //華南銀行美金現金賣出
+        hncb[2] = Double.parseDouble(hncb_elements.get(20).text()); //華南銀行港幣現金買入
+        hncb[3] = Double.parseDouble(hncb_elements.get(21).text()); //華南銀行港幣現金賣出
+        hncb[4] = Double.parseDouble(hncb_elements.get(53).text()); //華南銀行日圓現金買入
+        hncb[5] = Double.parseDouble(hncb_elements.get(54).text()); //華南銀行日圓現金賣出
+        hncb[6] = Double.parseDouble(hncb_elements.get(77).text()); //華南銀行韓元現金買入
+        hncb[7] = Double.parseDouble(hncb_elements.get(78).text()); //華南銀行韓元現金賣出
+        hncb[8] = Double.parseDouble(hncb_elements.get(68).text()); //華南銀行歐元現金買入
+        hncb[9] = Double.parseDouble(hncb_elements.get(69).text()); //華南銀行歐元現金賣出
+        hncb[10] = Double.parseDouble(hncb_elements.get(74).text()); //華南銀行人民幣現金買入
+        hncb[11] = Double.parseDouble(hncb_elements.get(75).text()); //華南銀行人民幣現金賣出
+        hncb[12] = Double.parseDouble(hncb_elements.get(26).text()); //華南銀行英鎊現金買入
+        hncb[13] = Double.parseDouble(hncb_elements.get(27).text()); //華南銀行英鎊現金賣出
+        
+        for(int i = 0; i < hncb.length; i++){
+        	System.out.println(hncb[i]);
         }
-        /*Elements mega_elements = mega.select("td.WordB");
-        System.out.println(bot_elements.size()); 
-        System.out.println(mega_elements.size()); 
-        for(int i = 0; i < 64; i++){
-        	System.out.println(mega_elements.get(i).text());  
-        }
+        
+        //System.out.println(bot_elements.size()); 
+        //System.out.println(mega_elements.size());
+        //System.out.println(esun_elements.size()); 
+        //System.out.println(hncb_elements.size()); 
+       
         //System.out.println(mega_elements.get(0).text()); 
-        
-        System.out.print("美金現金買入(台灣銀行): ");
-        System.out.println(bot_elements.get(0).text());
-        System.out.print("美金現金賣出(台灣銀行): ");
-        System.out.println(bot_elements.get(1).text());  
-        
-        double d1 = Double.parseDouble(bot_elements.get(0).text());
-        double d2 = Double.parseDouble(bot_elements.get(1).text());
-        System.out.print("美金現金匯差(台灣銀行): ");
-        System.out.println(d2 - d1);
+       
         
         /*for(int i = 0; i < 20; i++){
         	System.out.println(bot_elements.get(i).text());  

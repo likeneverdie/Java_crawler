@@ -3,7 +3,7 @@ package final_project;
 import java.io.*;
 import java.net.URL;
 //import java.net.URLConnection;
-//import java.util.Iterator;
+import java.util.Scanner;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -25,6 +25,17 @@ public class Crawler_test {
 	private static double[] scb = new double[14]; // 渣打銀行
  	private static double[] hsbc = new double[14]; // 匯豐銀行
  	private static double[] tsb = new double[14]; // 台新銀行
+ 	
+ 	/* 各間銀行現金匯兌手續費
+ 	 * -------------------
+ 	 * 台灣銀行: 免手續費
+ 	 * 兆豐銀行: 免手續費
+ 	 * 玉山銀行: 每筆NT100元
+ 	 * 華南銀行: 免手續費
+ 	 * 渣打銀行: 每筆NT100元
+ 	 * 匯豐銀行: 0.5%手續費
+ 	 * 台新銀行: 免手續費
+ 	 */
 	
 	public static void main(String[] args) throws IOException{
 		
@@ -207,6 +218,7 @@ public class Crawler_test {
         //tsb[12] = Double.parseDouble(tsb_elements.get(48).text()); //台新銀行英鎊現金買入
         //tsb[13] = Double.parseDouble(tsb_elements.get(49).text()); //台新銀行英鎊現金賣出 
         //台新銀行無韓元匯兌, 無英鎊現金匯兌
+        
         /*for(int i = 0; i < tsb.length; i++){
         	System.out.println(tsb[i]);
         }
@@ -221,6 +233,27 @@ public class Crawler_test {
         //System.out.println(scb_elements.size()); 
         //System.out.println(hsbc_elements.size()); 
         //System.out.println(tsb_elements.size()); 
+        
+        Scanner input = new Scanner(System.in);
+        System.out.println("請選擇現金買入or現金賣出(0: 現金買入, 1: 現金賣出 ): ");
+        int buyInbuyOut = input.nextInt();
+        System.out.println("請選擇貨幣(0: 美金, 1: 港幣, 2: 日幣, 3: 韓元, 4: 歐元, 5: 人民幣, 6: 英鎊): ");
+        int whichCurrency = input.nextInt();
+        System.out.println("請輸入金額(若無需輸入金額則輸入0, 最大金額為2,147,483,647, 你也比你想像中窮XD): ");
+        int amount = input.nextInt();
+        
+        if(buyInbuyOut == 0){
+       
+        	if(whichCurrency == 0){
+        		
+        	}
+        }
+        
+        /*System.out.println(buyInbuyOut);
+        System.out.println(whichCurrency);
+        System.out.println(amount);*/
+        
+        input.close();
                 	
 	}
 }

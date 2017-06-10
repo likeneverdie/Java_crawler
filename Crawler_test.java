@@ -12,6 +12,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 public class Crawler_test {
+	
+	static int buyInbuyOut = 0;
+	static int whichCurrency = 0;
+	static int amount = 0;
+	
 	// 銀行資料參考網頁: http://www.findrate.tw/glossary.html#.WTbShhOGP-Y
 	//宣告兩個字串陣列 一個儲存買入or賣出 一個儲存七種幣別
 	private static String[] buyORsell = new String[2];
@@ -39,6 +44,18 @@ public class Crawler_test {
 	
 	public static void main(String[] args) throws IOException{
 		
+		Scanner input = new Scanner(System.in);
+        System.out.println("請選擇現金買入or現金賣出(0: 現金買入, 1: 現金賣出 ): ");
+        buyInbuyOut = input.nextInt();
+        System.out.println("請選擇貨幣(0: 美金, 1: 港幣, 2: 日幣, 3: 韓元, 4: 歐元, 5: 人民幣, 6: 英鎊): ");
+        whichCurrency = input.nextInt();
+        System.out.println("請輸入金額(最低輸入金額為1, 最大輸入金額為2,147,483,647, 你也比你想像中窮XD): ");
+        amount = input.nextInt();
+		
+        /*System.out.println(buyInbuyOut);
+        System.out.println(whichCurrency);
+        System.out.println(amount);*/
+        
 		buyORsell[0] = "現金買入";
 		buyORsell[1] = "現金賣出";
 		
@@ -52,6 +69,22 @@ public class Crawler_test {
 		
 		//System.out.println(buyORsell[0]);
 		
+		start_Crawling(); 
+        
+		System.out.println(bot[13]);
+		System.out.println(mega[13]);
+		System.out.println(esun[13]);
+		System.out.println(hncb[13]);
+		System.out.println(scb[13]);
+		System.out.println(hsbc[13]);
+		System.out.println(tsb[13]);
+		System.out.println(Crawler_test.get_MinRate(buyInbuyOut, whichCurrency));
+		
+        input.close();
+                	
+	}
+	
+	public static void start_Crawling() throws IOException{
 		URL bot_web = new URL("http://rate.bot.com.tw/xrt?Lang=zh-TW"); // 台灣銀行
 		URL mega_web = new URL("http://www.findrate.tw/bank/5/#.WTZwjROGOt8"); //兆豐銀行
 		URL esun_web = new URL("https://www.esunbank.com.tw/bank/Layouts/esunbank/Accessibility/rate_exchange.aspx"); //玉山銀行
@@ -66,13 +99,13 @@ public class Crawler_test {
          * 第二個參數是：連線時間(毫秒)，在指定時間內若無回應則會丟出IOException
          */
 		
-        Document bot_doc = Jsoup.parse(bot_web, 4000); // bot: 台灣銀行
-        Document mega_doc = Jsoup.parse(mega_web, 4000); // mega: 兆豐銀行
-        Document esun_doc = Jsoup.parse(esun_web, 4000); // esun: 玉山銀行
-        Document hncb_doc = Jsoup.parse(hncb_web, 4000); // hncb: 華南銀行
-        Document scb_doc = Jsoup.parse(scb_web, 4000); // scb: 渣打銀行
-        Document hsbc_doc = Jsoup.parse(hsbc_web, 4000); // hsbc:匯豐銀行
-        Document tsb_doc = Jsoup.parse(tsb_web, 4000); // tsb: 台新銀行
+        Document bot_doc = Jsoup.parse(bot_web, 5000); // bot: 台灣銀行
+        Document mega_doc = Jsoup.parse(mega_web, 5000); // mega: 兆豐銀行
+        Document esun_doc = Jsoup.parse(esun_web, 5000); // esun: 玉山銀行
+        Document hncb_doc = Jsoup.parse(hncb_web, 5000); // hncb: 華南銀行
+        Document scb_doc = Jsoup.parse(scb_web, 5000); // scb: 渣打銀行
+        Document hsbc_doc = Jsoup.parse(hsbc_web, 5000); // hsbc:匯豐銀行
+        Document tsb_doc = Jsoup.parse(tsb_web, 5000); // tsb: 台新銀行
         
         /*String bot_title = bot.title(); // 抓取網頁標題
         String mega_title = sinopac.title();
@@ -233,27 +266,45 @@ public class Crawler_test {
         //System.out.println(scb_elements.size()); 
         //System.out.println(hsbc_elements.size()); 
         //System.out.println(tsb_elements.size()); 
-        
-        Scanner input = new Scanner(System.in);
-        System.out.println("請選擇現金買入or現金賣出(0: 現金買入, 1: 現金賣出 ): ");
-        int buyInbuyOut = input.nextInt();
-        System.out.println("請選擇貨幣(0: 美金, 1: 港幣, 2: 日幣, 3: 韓元, 4: 歐元, 5: 人民幣, 6: 英鎊): ");
-        int whichCurrency = input.nextInt();
-        System.out.println("請輸入金額(若無需輸入金額則輸入0, 最大金額為2,147,483,647, 你也比你想像中窮XD): ");
-        int amount = input.nextInt();
-        
-        if(buyInbuyOut == 0){
-       
-        	if(whichCurrency == 0){
-        		
-        	}
-        }
-        
-        /*System.out.println(buyInbuyOut);
-        System.out.println(whichCurrency);
-        System.out.println(amount);*/
-        
-        input.close();
-                	
 	}
+	
+	public static double get_MinRate(int buyInbuyOut, int whichCurrency){
+		
+		double MinRate = 0;
+		
+		if(buyInbuyOut == 0){
+			
+			for(int i = 0; i < 7; i++){
+
+		        MinRate = bot[2*i + 1];
+
+		        if(MinRate > mega[2*i + 1] && mega[2*i + 1] != 0.0){
+		                MinRate = mega[2*i + 1];
+		        }
+		        if(MinRate > esun[2*i + 1]  && esun[2*i + 1] != 0.0){
+		                MinRate = esun[2*i + 1];
+		        }
+		        if(MinRate > hncb[2*i + 1]  && hncb[2*i + 1] != 0.0){
+		                MinRate = hncb[2*i + 1];
+		        }
+		        if(MinRate > scb[2*i + 1]  && scb[2*i + 1] != 0.0){
+		                MinRate = scb[2*i + 1];
+		        }
+		        if(MinRate > hsbc[2*i + 1] && hsbc[2*i + 1] != 0.0){
+		                MinRate = hsbc[2*i + 1];
+		        }
+		        if(MinRate > tsb[2*i + 1] && tsb[2*i + 1] != 0.0){
+		                MinRate = tsb[2*i + 1];
+		        }
+		        
+		        if(i == whichCurrency){
+		        	break;
+		        }
+		}
+			
+		}
+		
+		return MinRate;
+	}
+	
 }

@@ -71,13 +71,13 @@ public class Crawler_test {
 		
 		start_Crawling(); 
         
-		System.out.println(bot[13]);
+		/*System.out.println(bot[13]);
 		System.out.println(mega[13]);
 		System.out.println(esun[13]);
 		System.out.println(hncb[13]);
 		System.out.println(scb[13]);
 		System.out.println(hsbc[13]);
-		System.out.println(tsb[13]);
+		System.out.println(tsb[13]);*/
 		System.out.println(Crawler_test.get_MinRate(buyInbuyOut, whichCurrency));
 		
         input.close();
@@ -87,7 +87,7 @@ public class Crawler_test {
 	public static void start_Crawling() throws IOException{
 		URL bot_web = new URL("http://rate.bot.com.tw/xrt?Lang=zh-TW"); // 台灣銀行
 		URL mega_web = new URL("http://www.findrate.tw/bank/5/#.WTZwjROGOt8"); //兆豐銀行
-		URL esun_web = new URL("https://www.esunbank.com.tw/bank/Layouts/esunbank/Accessibility/rate_exchange.aspx"); //玉山銀行
+		URL esun_web = new URL("https://www.esunbank.com.tw/bank/personal/deposit/rate/forex/foreign-exchange-rates"); //玉山銀行
 		URL hncb_web = new URL("https://ibank.hncb.com.tw/netbank/pages/jsp/ExtSel/RTExange.html"); //華南銀行
 		URL scb_web = new URL("http://www.standardchartered.com.tw/check/inquiry-rate-foreign-exchange.asp"); //渣打銀行
 		URL hsbc_web = new URL("https://www.hsbc.com.tw/1/2/Misc/popup-tw/currency-calculator"); //匯豐銀行
@@ -153,20 +153,20 @@ public class Crawler_test {
         }*/
         
         Elements esun_elements = esun_doc.select("td");
-        esun[0] = Double.parseDouble(esun_elements.get(1).text()); //玉山銀行美金現金買入
-        esun[1] = Double.parseDouble(esun_elements.get(2).text()); //玉山銀行美金現金賣出
-        esun[2] = Double.parseDouble(esun_elements.get(4).text()); //玉山銀行港幣現金買入
-        esun[3] = Double.parseDouble(esun_elements.get(5).text()); //玉山銀行港幣現金賣出
-        esun[4] = Double.parseDouble(esun_elements.get(7).text()); //玉山銀行日圓現金買入
-        esun[5] = Double.parseDouble(esun_elements.get(8).text()); //玉山銀行日圓現金賣出
+        esun[0] = Double.parseDouble(esun_elements.get(10).text()); //玉山銀行美金現金買入
+        esun[1] = Double.parseDouble(esun_elements.get(11).text()); //玉山銀行美金現金賣出
+        esun[2] = Double.parseDouble(esun_elements.get(20).text()); //玉山銀行港幣現金買入
+        esun[3] = Double.parseDouble(esun_elements.get(21).text()); //玉山銀行港幣現金賣出
+        esun[4] = Double.parseDouble(esun_elements.get(25).text()); //玉山銀行日圓現金買入
+        esun[5] = Double.parseDouble(esun_elements.get(26).text()); //玉山銀行日圓現金賣出
         //esun[6] = Double.parseDouble(esun_elements.get(52).text()); //玉山銀行韓元現金買入
         //esun[7] = Double.parseDouble(esun_elements.get(53).text()); //玉山銀行韓元現金賣出
-        esun[8] = Double.parseDouble(esun_elements.get(10).text()); //玉山銀行歐元現金買入
-        esun[9] = Double.parseDouble(esun_elements.get(11).text()); //玉山銀行歐元現金賣出
-        esun[10] = Double.parseDouble(esun_elements.get(40).text()); //玉山銀行人民幣現金買入
-        esun[11] = Double.parseDouble(esun_elements.get(41).text()); //玉山銀行人民幣現金賣出
-        esun[12] = Double.parseDouble(esun_elements.get(13).text()); //玉山銀行英鎊現金買入
-        esun[13] = Double.parseDouble(esun_elements.get(14).text()); //玉山銀行英鎊現金賣出
+        esun[8] = Double.parseDouble(esun_elements.get(30).text()); //玉山銀行歐元現金買入
+        esun[9] = Double.parseDouble(esun_elements.get(31).text()); //玉山銀行歐元現金賣出
+        esun[10] = Double.parseDouble(esun_elements.get(15).text()); //玉山銀行人民幣現金買入
+        esun[11] = Double.parseDouble(esun_elements.get(16).text()); //玉山銀行人民幣現金賣出
+        esun[12] = Double.parseDouble(esun_elements.get(45).text()); //玉山銀行英鎊現金買入
+        esun[13] = Double.parseDouble(esun_elements.get(46).text()); //玉山銀行英鎊現金賣出
         //玉山銀行無韓元現金兌換 因此陣列存入值皆為 0.0
         
         /*for(int i = 0; i < esun.length; i++){
@@ -300,11 +300,8 @@ public class Crawler_test {
 		        if(i == whichCurrency){
 		        	break;
 		        }
+			}		
 		}
-			
-		}
-		
 		return MinRate;
 	}
-	
 }

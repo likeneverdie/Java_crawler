@@ -71,17 +71,21 @@ public class Crawler_test {
 		
 		start_Crawling(); 
         
-		/*System.out.println(bot[13]);
-		System.out.println(mega[13]);
+		/*System.out.println(bot[13]);   測試匯率是否正常用
+ 		System.out.println(mega[13]);
 		System.out.println(esun[13]);
 		System.out.println(hncb[13]);
 		System.out.println(scb[13]);
 		System.out.println(hsbc[13]);
 		System.out.println(tsb[13]);*/
-		System.out.println(Crawler_test.get_MinRate(buyInbuyOut, whichCurrency));
+		System.out.println(Crawler_test.get_BestRate(buyInbuyOut, whichCurrency));
+		System.out.println(Crawler_test.get_BestBank(buyInbuyOut, whichCurrency));
 		
-        input.close();
-                	
+		if(buyInbuyOut == 1){
+			double total_amount = amount * Crawler_test.get_BestRate(buyInbuyOut, whichCurrency);
+			System.out.println(total_amount);
+		}
+        input.close();       	
 	}
 	
 	public static void start_Crawling() throws IOException{
@@ -268,40 +272,120 @@ public class Crawler_test {
         //System.out.println(tsb_elements.size()); 
 	}
 	
-	public static double get_MinRate(int buyInbuyOut, int whichCurrency){
+	public static double get_BestRate(int buyInbuyOut, int whichCurrency){
 		
-		double MinRate = 0;
+		double BestRate = 0;
 		
 		if(buyInbuyOut == 0){
 			
 			for(int i = 0; i < 7; i++){
 
-		        MinRate = bot[2*i + 1];
+		        BestRate = bot[2*i + 1];
 
-		        if(MinRate > mega[2*i + 1] && mega[2*i + 1] != 0.0){
-		                MinRate = mega[2*i + 1];
+		        if(BestRate > mega[2*i + 1] && mega[2*i + 1] != 0.0){
+		                BestRate = mega[2*i + 1];
 		        }
-		        if(MinRate > esun[2*i + 1]  && esun[2*i + 1] != 0.0){
-		                MinRate = esun[2*i + 1];
+		        if(BestRate > esun[2*i + 1]  && esun[2*i + 1] != 0.0){
+		                BestRate = esun[2*i + 1];
 		        }
-		        if(MinRate > hncb[2*i + 1]  && hncb[2*i + 1] != 0.0){
-		                MinRate = hncb[2*i + 1];
+		        if(BestRate > hncb[2*i + 1]  && hncb[2*i + 1] != 0.0){
+		                BestRate = hncb[2*i + 1];
 		        }
-		        if(MinRate > scb[2*i + 1]  && scb[2*i + 1] != 0.0){
-		                MinRate = scb[2*i + 1];
+		        if(BestRate > scb[2*i + 1]  && scb[2*i + 1] != 0.0){
+		                BestRate = scb[2*i + 1];
 		        }
-		        if(MinRate > hsbc[2*i + 1] && hsbc[2*i + 1] != 0.0){
-		                MinRate = hsbc[2*i + 1];
+		        if(BestRate > hsbc[2*i + 1] && hsbc[2*i + 1] != 0.0){
+		                BestRate = hsbc[2*i + 1];
 		        }
-		        if(MinRate > tsb[2*i + 1] && tsb[2*i + 1] != 0.0){
-		                MinRate = tsb[2*i + 1];
+		        if(BestRate > tsb[2*i + 1] && tsb[2*i + 1] != 0.0){
+		                BestRate = tsb[2*i + 1];
 		        }
 		        
 		        if(i == whichCurrency){
 		        	break;
 		        }
-			}		
+			}
 		}
-		return MinRate;
+		if(buyInbuyOut == 1){
+			
+			for(int i = 0; i < 7; i++){
+
+		        BestRate = bot[2*i];
+
+		        if(BestRate < mega[2*i] && mega[2*i] != 0.0){
+		                BestRate = mega[2*i];
+		        }
+		        if(BestRate < esun[2*i]  && esun[2*i] != 0.0){
+		                BestRate = esun[2*i];
+		        }
+		        if(BestRate < hncb[2*i]  && hncb[2*i] != 0.0){
+		                BestRate = hncb[2*i];
+		        }
+		        if(BestRate < scb[2*i]  && scb[2*i] != 0.0){
+		                BestRate = scb[2*i];
+		        }
+		        if(BestRate < hsbc[2*i] && hsbc[2*i] != 0.0){
+		                BestRate = hsbc[2*i];
+		        }
+		        if(BestRate < tsb[2*i] && tsb[2*i] != 0.0){
+		                BestRate = tsb[2*i];
+		        }
+		        
+		        if(i == whichCurrency){
+		        	break;
+		        }
+			}
+		}
+		return BestRate;	
+	}
+	
+	public static String get_BestBank(int buyInbuyOut, int whichCurrency){
+		
+		String BestBank = "";
+		double BestRate = get_BestRate(buyInbuyOut, whichCurrency);
+		
+		for(int i = 0; i < 14; i++){
+			if(BestRate == bot[i]){
+				BestBank = "台灣銀行";
+				break;
+			}
+		}
+		for(int i = 0; i < 14; i++){
+			if(BestRate == mega[i]){
+				BestBank = "兆豐銀行";
+				break;
+			}
+		}
+		for(int i = 0; i < 14; i++){
+			if(BestRate == esun[i]){
+				BestBank = "玉山銀行";
+				break;
+			}
+		}
+		for(int i = 0; i < 14; i++){
+			if(BestRate == hncb[i]){
+				BestBank = "華南銀行";
+				break;
+			}
+		}
+		for(int i = 0; i < 14; i++){
+			if(BestRate == scb[i]){
+				BestBank = "渣打銀行";
+				break;
+			}
+		}
+		for(int i = 0; i < 14; i++){
+			if(BestRate == hsbc[i]){
+				BestBank = "匯豐銀行";
+				break;
+			}
+		}
+		for(int i = 0; i < 14; i++){
+			if(BestRate == tsb[i]){
+				BestBank = "台新銀行";
+				break;
+			}
+		}
+		return BestBank;
 	}
 }

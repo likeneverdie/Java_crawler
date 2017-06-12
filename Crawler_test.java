@@ -81,10 +81,15 @@ public class Crawler_test {
 		System.out.println(Crawler_test.get_BestRate(buyInbuyOut, whichCurrency));
 		System.out.println(Crawler_test.get_BestBank(buyInbuyOut, whichCurrency));
 		
-		if(buyInbuyOut == 1){
-			double total_amount = amount * Crawler_test.get_BestRate(buyInbuyOut, whichCurrency);
-			System.out.println(total_amount);
+		int total_amount = 0;
+		if(buyInbuyOut == 0){
+			total_amount = (int) ((int) amount / Crawler_test.get_BestRate(buyInbuyOut, whichCurrency));
 		}
+		else if(buyInbuyOut == 1){
+			total_amount = (int) ((int)amount * Crawler_test.get_BestRate(buyInbuyOut, whichCurrency));
+		}
+		System.out.println(total_amount);
+		
         input.close();       	
 	}
 	

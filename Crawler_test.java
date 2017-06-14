@@ -71,10 +71,14 @@ public class Crawler_test {
 			//System.out.println(buyORsell[0]);
 			
 			start_Crawling(); 
-	        
-			System.out.println(Crawler_test.get_BestBank(buyInbuyOut, whichCurrency));
-			System.out.println(Crawler_test.get_BestRate(buyInbuyOut, whichCurrency));
-			System.out.println(Crawler_test.get_BestPrice(buyInbuyOut, whichCurrency, amount));
+			
+			String Bank = get_BestBank(buyInbuyOut, whichCurrency);
+			double BestRate = Crawler_test.get_BestRate(buyInbuyOut, whichCurrency);
+			int BestPrice = (int) Crawler_test.get_BestPrice(buyInbuyOut, whichCurrency, amount);
+			
+			System.out.println(Bank);
+			System.out.println(BestRate);
+			System.out.println(BestPrice);
 			
 			
 			/*System.out.println(bot[13]);   測試匯率是否正常用

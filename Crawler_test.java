@@ -22,6 +22,7 @@ public class Crawler_test {
 	private static String[] buyORsell = new String[2];
 	private static String[] currency = new String[7];
 	
+	
 	//宣告7個長度14的double陣列 儲存七間銀行的七種貨幣資料(包含買入賣出) 奇數存取買入偶數存取賣出
 	private static double[] bot = new double[14]; //台灣銀行
 	private static double[] mega = new double[14]; //兆豐銀行
@@ -44,6 +45,17 @@ public class Crawler_test {
 	
 	public static void main(String[] args){
 		
+		buyORsell[0] = "現金買入";
+		buyORsell[1] = "現金賣出";
+		
+		currency[0] = "美金"; 
+		currency[1] = "港幣"; 
+		currency[2] = "日圓"; 
+		currency[3] = "韓元"; 
+		currency[4] = "歐元"; 
+		currency[5] = "人民幣"; 
+		currency[6] = "英鎊"; 
+		
 		try{
 			Scanner input = new Scanner(System.in);
 	        System.out.println("請選擇現金買入or現金賣出(0: 現金買入, 1: 現金賣出 ): ");
@@ -56,19 +68,7 @@ public class Crawler_test {
 	        /*System.out.println(buyInbuyOut);
 	        System.out.println(whichCurrency);
 	        System.out.println(amount);*/
-	        
-			buyORsell[0] = "現金買入";
-			buyORsell[1] = "現金賣出";
-			
-			currency[0] = "USD"; // 美金
-			currency[1] = "HKD"; // 港幣
-			currency[2] = "JPY"; // 日圓
-			currency[3] = "KRW"; // 韓元
-			currency[4] = "EUR"; // 歐元
-			currency[5] = "RMB"; // 人民幣
-			currency[6] = "GBP"; // 英鎊 Great British Pound
-			
-			//System.out.println(buyORsell[0]);
+	       
 			
 			start_Crawling(); 
 			
@@ -76,10 +76,31 @@ public class Crawler_test {
 			double BestRate = Crawler_test.get_BestRate(buyInbuyOut, whichCurrency);
 			int BestPrice = (int) Crawler_test.get_BestPrice(buyInbuyOut, whichCurrency, amount);
 			
-			System.out.println(Bank);
-			System.out.println(BestRate);
-			System.out.println(BestPrice);
-			
+			System.out.println(buyORsell[buyInbuyOut]);
+			System.out.println("____________________________________________");
+			System.out.println("您輸入的貨幣為: " + currency[whichCurrency]);
+			System.out.println("換匯最佳銀行: " + Bank);
+			System.out.println("最佳匯率: " + BestRate);
+			System.out.println("您可換得的最划算金額(含手續費): " + BestPrice);
+			System.out.println("____________________________________________");
+			if(buyInbuyOut == 0){
+				System.out.println("台灣銀行: " + bot[2*whichCurrency + 1]);
+				System.out.println("兆豐銀行: " + mega[2*whichCurrency + 1]);
+				System.out.println("玉山銀行: " + esun[2*whichCurrency + 1]);
+				System.out.println("華南銀行: " + hncb[2*whichCurrency + 1]);
+				System.out.println("渣打銀行: " + scb[2*whichCurrency + 1]);
+				System.out.println("匯豐銀行: " + hsbc[2*whichCurrency + 1]);
+				System.out.println("台新銀行: " + tsb[2*whichCurrency + 1]);
+			}
+			else{
+				System.out.println("台灣銀行: " + bot[2*whichCurrency]);
+				System.out.println("兆豐銀行: " + mega[2*whichCurrency]);
+				System.out.println("玉山銀行: " + esun[2*whichCurrency]);
+				System.out.println("華南銀行: " + hncb[2*whichCurrency]);
+				System.out.println("渣打銀行: " + scb[2*whichCurrency]);
+				System.out.println("匯豐銀行: " + hsbc[2*whichCurrency]);
+				System.out.println("台新銀行: " + tsb[2*whichCurrency]);
+			}
 			
 			/*System.out.println(bot[13]);   測試匯率是否正常用
 	 		System.out.println(mega[13]);
@@ -99,6 +120,7 @@ public class Crawler_test {
 	public static void start_Crawling(){
 		
 		try{
+			//網址一定要走http協定
 			URL bot_web = new URL("http://rate.bot.com.tw/xrt?Lang=zh-TW"); // 台灣銀行
 			URL mega_web = new URL("http://www.findrate.tw/bank/5/#.WTZwjROGOt8"); //兆豐銀行
 			URL esun_web = new URL("https://www.esunbank.com.tw/bank/personal/deposit/rate/forex/foreign-exchange-rates"); //玉山銀行
@@ -282,6 +304,7 @@ public class Crawler_test {
 	        //System.out.println(tsb_elements.size()); 
 		}
 		catch(IOException e){
+			e.printStackTrace();
 			System.out.println("404 Not Found");
 			System.exit(0);
 		}

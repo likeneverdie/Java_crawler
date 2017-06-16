@@ -20,6 +20,7 @@ public class CrawlingUI extends Crawler_test{
 				try {
 					CrawlingUI window = new CrawlingUI();
 					window.frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -39,54 +40,46 @@ public class CrawlingUI extends Crawler_test{
 
 	 */
 	
-	//String bestbank="";
-	//double bestrate=0.00;
-	//double bestprice=0.00;
-	
 	private void initialize() {
 		
 		//³]¸mµøµ¡
 		frame = new JFrame();
-		frame.setTitle("\u9280\u884C\u532F\u7387\u6E2C\u8A66");
+		frame.setTitle("\u9280\u884C\u532F\u7387\u63DB\u7B97");
 		frame.setBounds(100, 100, 687, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.addWindowListener(new closeTemp());
 		
-		//bestbank=Crawler_test.get_BestBank(buyInbuyOut, whichCurrency);
-		//bestrate=Crawler_test.get_BestRate(buyInbuyOut, whichCurrency);
-		//bestprice=Crawler_test.get_BestPrice(buyInbuyOut, whichCurrency, amount);
-		
-		//System.out.println(Crawler_test.get_BestBank(buyInbuyOut, whichCurrency));
-		//System.out.println(bestrate);
-		
+		//³]¸m¼ÐÅÒ
 		JLabel label_bank = new JLabel("您可換得的最佳銀行為");
-		label_bank.setBounds(14, 39, 162, 21);
+		label_bank.setBounds(14, 83, 162, 21);
 		frame.getContentPane().add(label_bank);
 		label_bank.setFont(new Font("·L³n¥¿¶ÂÅé", Font.BOLD, 15));
 		
 		JLabel label_rate = new JLabel("\u60A8\u53EF\u63DB\u5F97\u7684\u6700\u4F73\u532F\u7387\u70BA\uFF1A");
 		label_rate.setFont(new Font("·L³n¥¿¶ÂÅé", Font.BOLD, 15));
-		label_rate.setBounds(14, 73, 162, 21);
+		label_rate.setBounds(14, 121, 162, 21);
 		frame.getContentPane().add(label_rate);
 		
 		JLabel label_price = new JLabel("\u60A8\u53EF\u63DB\u5F97\u7684\u6700\u4F73\u50F9\u9322\u70BA\uFF1A");
 		label_price.setFont(new Font("·L³n¥¿¶ÂÅé", Font.BOLD, 15));
-		label_price.setBounds(14, 107, 162, 21);
+		label_price.setBounds(14, 155, 162, 21);
 		frame.getContentPane().add(label_price);
 		
+		//³]¸m¤å¦r°Ï
 		JTextArea textArea_bank = new JTextArea();
-		textArea_bank.setBounds(179, 39, 116, 25);
+		textArea_bank.setBounds(179, 84, 116, 25);
 		frame.getContentPane().add(textArea_bank);
 		textArea_bank.setColumns(10);
 		
 		JTextArea textArea_rate = new JTextArea();
 		textArea_rate.setColumns(10);
-		textArea_rate.setBounds(179, 69, 116, 25);
+		textArea_rate.setBounds(179, 118, 116, 25);
 		frame.getContentPane().add(textArea_rate);
 		
 		JTextArea textArea_price = new JTextArea();
 		textArea_price.setColumns(10);
-		textArea_price.setBounds(179, 105, 116, 25);
+		textArea_price.setBounds(179, 156, 116, 25);
 		frame.getContentPane().add(textArea_price);
 		
 		//³]¸m²{ª÷¶R¤Jµøµ¡
@@ -128,12 +121,12 @@ public class CrawlingUI extends Crawler_test{
 				textArea_bank.append(BestBank);
 				textArea_rate.append(sbestrate);
 				textArea_price.append(sbestprice);
-				
-				internalFrame_buyin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				internalFrame_buyin.setVisible(false);
 			}
 		});
 		buttonenter_0.setBounds(171, 48, 99, 27);
 		internalFrame_buyin.getContentPane().add(buttonenter_0);
+		internalFrame_buyin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		//³]¸m²{ª÷½æ¥Xµøµ¡
 		JInternalFrame internalFrame_buyout = new JInternalFrame("\u73FE\u91D1\u8CE3\u51FA\r\n");
@@ -174,12 +167,12 @@ public class CrawlingUI extends Crawler_test{
 				textArea_bank.append(BestBank);
 				textArea_rate.append(sbestrate);
 				textArea_price.append(sbestprice);
-				
-				internalFrame_buyin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				internalFrame_buyout.setVisible(false);
 			}
 		});
 		buttonenter_1.setBounds(171, 48, 99, 27);
 		internalFrame_buyout.getContentPane().add(buttonenter_1);
+		internalFrame_buyout.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		//³]¸m¿ï³æ¦C
 		JMenuBar menuBar = new JMenuBar();
@@ -264,10 +257,10 @@ public class CrawlingUI extends Crawler_test{
 		checkmenuItemGBP.setFont(new Font("·L³n¥¿¶ÂÅé", Font.BOLD, 15));
 		option.add(checkmenuItemGBP);
 		
-				//³]¸m¿ï³æ
-				JMenu choose = new JMenu("\u9078\u64C7");
-				choose.setFont(new Font("·L³n¥¿¶ÂÅé", Font.BOLD, 15));
-				menuBar.add(choose);
+		//³]¸m¿ï³æ
+		JMenu choose = new JMenu("\u9078\u64C7");
+		choose.setFont(new Font("·L³n¥¿¶ÂÅé", Font.BOLD, 15));
+		menuBar.add(choose);
 				
 		//³]¸m²{ª÷¶R¤JÁä
 		JMenuItem buyin = new JMenuItem("\u73FE\u91D1\u8CB7\u5165");
@@ -290,6 +283,30 @@ public class CrawlingUI extends Crawler_test{
 			}
 		});
 		choose.add(sellout);
-		
-	}
+	} 
+}
+
+
+class closeTemp implements WindowListener{
+	public void windowClosing(WindowEvent e)
+   {
+       int choice ;
+       choice = JOptionPane.showConfirmDialog(null,
+                   "確定離開本程式?","關閉視窗", JOptionPane
+                   .YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+      if (choice == JOptionPane.YES_OPTION)
+      {
+           System.exit(0);
+      }
+      else
+     {
+          JOptionPane.showMessageDialog(null, "取消關閉視窗");
+     }
+   }
+   public void windowActivated(WindowEvent e) {}
+   public void windowClosed(WindowEvent e) {}
+   public void windowDeactivated(WindowEvent e) {}
+   public void windowDeiconified(WindowEvent e) {}
+   public void windowIconified(WindowEvent e) {}
+   public void windowOpened(WindowEvent e) {}  
 }
